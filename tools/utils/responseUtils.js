@@ -1,6 +1,5 @@
-const fetch = require("node-fetch");
 const { from, of, forkJoin } = require("rxjs");
-const { map, flatMap, mergeMap, toArray } = require("rxjs/operators");
+const { map, mergeMap, toArray } = require("rxjs/operators");
 const { mlEndpointNames, callMLAPI } = require("./proxyMLUtils");
 
 sortArraybyId = (ids, data) => {
@@ -10,7 +9,6 @@ sortArraybyId = (ids, data) => {
   });
   return result;
 };
-
 /**
  *
  * @param { filters array from JSON query} filters
@@ -30,6 +28,11 @@ const flatCategories = filters => {
  */
 const getObservableItem = itemId => {
   return from(callMLAPI(mlEndpointNames.itemsApi, itemId));
+  //return from(fetch(`${itemURL}/${itemId}`).then(response => response.json()));
+};
+
+const getObservableItemDescription = itemId => {
+  return from(callMLAPI(mlEndpointNames.itemsDescriptionApi, itemId));
   //return from(fetch(`${itemURL}/${itemId}`).then(response => response.json()));
 };
 
@@ -83,10 +86,19 @@ const mapItemForSeachResult = item => {
   };
 };
 
+mapItemForResult = ({ item, itemDescription }) => {
+  const _item = mapItemForSeachResult(item);
+  return {
+    ..._item,
+    description: itemDescription.plain_text,
+    sold_quantity: item.sold_quantity
+  };
+};
+
 /**
  *
  * @param {Array of id of Items result of ML API SearchItems } itemsIdArray
- * returns an observable fullfiled with all information of items requested
+ * returns an observable fullfilled with all information of items requested
  *
  */
 const transformItemIdArray = itemsIdArray => {
@@ -115,6 +127,19 @@ const buildSearchResponse = searchResponse => {
   });
 };
 
+const getItemResponse = itemId => {
+  const itemReq$ = getObservableItem(itemId);
+  const itemDescriptionReq$ = getObservableItemDescription(itemId);
+  const itemResponse$ = forkJoin({
+    item: itemReq$,
+    itemDescription: itemDescriptionReq$
+  }).pipe(
+    map(joinedItem => {
+      return mapItemForResult(joinedItem);
+    })
+  );
+  return itemResponse$;
+};
 const handleError = error => {
   console.error("API call failed. " + error);
   throw error;
@@ -143,5 +168,6 @@ module.exports = {
   tagAuthor: tagAuthor,
   logErrors: logErrors,
   errorHandler: errorHandler,
-  getObservableItem: getObservableItem
+  getObservableItem: getObservableItem,
+  getItemResponse: getItemResponse
 };
