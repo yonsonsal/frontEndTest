@@ -2,7 +2,7 @@ import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.REACT_APP_API_URL + "/api/items";
 
 export const searchItemsByText = query => {
-  return fetch(`${baseUrl} ?q=${query}`)
+  return fetch(`${baseUrl}?q=${query}`)
     .then(handleResponse)
     .catch(handleError);
 };

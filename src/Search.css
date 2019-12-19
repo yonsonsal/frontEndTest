@@ -1,0 +1,46 @@
+.search-results {
+  list-style: none;
+}
+.results-item {
+}
+
+.item-image {
+  border-radius: 4px;
+  display: inline-block;
+  height: 180px;
+  margin: 32px 16px 32px 16px;
+  min-width: 180px;
+  overflow: hidden;
+  width: 180px;
+}
+
+.item-title {
+  font-size: 18px;
+}
+
+.image-content {
+  width: 180px;
+  height: 180px;
+}
+
+.price-container {
+}
+
+.price-symbol {
+}
+
+.price-fraction {
+}
+.item-price {
+  font-size: 24px;
+}
+.item-free-shipping-image {
+}
+.row-item {
+}
+
+.main-title {
+}
+
+.category {
+}

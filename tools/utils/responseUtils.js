@@ -15,10 +15,23 @@ sortArraybyId = (ids, data) => {
  * returns String array with name of the category of the filter
  */
 
-const flatCategories = filters => {
-  const pluckedCategoryArray = filters
-    .filter(_filter => _filter.id == "category")[0]
-    .values[0].path_from_root.map(path => path.name);
+const flatCategories = searchResponse => {
+  let pluckedCategoryArray = [];
+
+  if (searchResponse.filters.length > 0) {
+    pluckedCategoryArray = searchResponse.filters
+      .filter(_filter => _filter.id == "category")[0]
+      .values[0].path_from_root.map(path => path.name);
+  }
+  /*
+  else {
+    if (searchResponse.available_filters.length > 0) {
+      pluckedCategoryArray = searchResponse.available_filters
+        .filter(_filter => _filter.id == "category")[0]
+        .values.map(path => path.name);
+    }
+  }*/
+
   return pluckedCategoryArray;
 };
 
@@ -119,7 +132,7 @@ const transformItemIdArray = itemsIdArray => {
 const buildSearchResponse = searchResponse => {
   const itemIdArray = searchResponse.results.map(x => x.id);
   const itemArray$ = transformItemIdArray(itemIdArray);
-  const categories$ = of(flatCategories(searchResponse.filters));
+  const categories$ = of(flatCategories(searchResponse));
 
   return forkJoin({
     categories: categories$,

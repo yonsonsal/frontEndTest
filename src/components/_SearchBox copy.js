@@ -3,7 +3,6 @@ import "../App.css";
 import Item from "./Item";
 import { getItem, searchItemsByText } from "../api/itemApi";
 import Search from "./Search";
-import SearchResult from "./SearchResult";
 import { from } from "rxjs";
 import { take, map, toArray, mergeMap, flatMap } from "rxjs/operators";
 
@@ -63,14 +62,17 @@ const SearchBox = () => {
   return (
     <div className="App">
       <Search search={searchPromise} />
-
-      {loading && !errorMessage ? (
-        <span>loading...</span>
-      ) : errorMessage ? (
-        <div className="errorMessage">{errorMessage}</div>
-      ) : (
-        <SearchResult items={items} categories={categories}></SearchResult>
-      )}
+      <div className="items">
+        {loading && !errorMessage ? (
+          <span>loading...</span>
+        ) : errorMessage ? (
+          <div className="errorMessage">{errorMessage}</div>
+        ) : (
+          items.map((item, index) => (
+            <Item key={`${index}-${item.title}`} item={item} />
+          ))
+        )}
+      </div>
     </div>
   );
 };
