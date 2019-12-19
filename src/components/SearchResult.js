@@ -1,5 +1,7 @@
 import React from "react";
 import ItemResult from "./ItemResult";
+import "../App.css";
+import "../Search.css";
 
 const SearchResult = ({ items, categories }) => {
   return (
