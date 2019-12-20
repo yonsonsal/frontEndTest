@@ -1,57 +1,54 @@
+import "bootstrap/dist/css/bootstrap.css";
 import "../App.css";
 import "../Search.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { getItem } from "../api/itemApi";
 
 const ItemDetail = props => {
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    const id = props.match.params.id; // from the path `/courses/:slug`
-    if (id) {
-      getItem(id).then(_item => setItem(_item));
+  useLayoutEffect(() => {
+    const id = props.match.params.id; // from the path `/items/:id`
+    async function loadItem(_id) {
+      if (_id) {
+        await getItem(_id).then(_item => setItem(_item));
+        setIsLoaded(true);
+      }
     }
-  }, []);
+    loadItem(id);
+  }, [props.match.params.id]);
 
-  const picture = item.picture;
   return (
-    <div className="row">
-      <div className="col-7">
-        <div className="image-detail">
-          <img width="680px" alt={`Item: ${item.title}`} src={picture} />
-        </div>
+    <> </> &&
+    isLoaded && (
+      <div className="row">
+        <div className="col-7">
+          <div className="image-detail">
+            <img width="680px" alt={item.title} src={item.picture} />
+          </div>
 
-        <div className="col-3">
-          <div className="container item-detail-info-container">
-            <div className="price-container">
-              <div className="item-price">
-                <span className="price-symbol">$</span>
-                <span className="price-fraction">
-                  {item.price.amount}.{item.price.decimals}
-                </span>
-                {item.free_shipping ? (
-                  <span className="item-free-shipping-container">
-                    {" "}
-                    <img className="item-free-shipping-image"></img>
+          <div className="col-3">
+            <div className="container item-detail-info-container">
+              <div className="price-container">
+                <div className="item-price">
+                  <span className="price-symbol">$</span>
+                  <span className="price-fraction">
+                    {item.price.amount}.{item.price.decimals}
                   </span>
-                ) : (
-                  <span className="item-shipping"></span>
-                )}
+                </div>
               </div>
-            </div>
-            <h2 className="item-title">
-              <Link to={"/items/" + item.id}>
+              <h2 className="item-title">
                 <span className="main-title">{item.title}</span>
-              </Link>
-            </h2>
+              </h2>
+            </div>
           </div>
         </div>
+        <div className="col-4">col-4</div>
+        <div></div>
+        <p>({item.title})</p>
       </div>
-      <div class="col-4">col-4</div>
-      <h2>$ {item.price}</h2>
-      <div></div>
-      <p>({item.title})</p>
-    </div>
+    )
   );
 };
 

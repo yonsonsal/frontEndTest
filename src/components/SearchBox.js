@@ -6,21 +6,33 @@ import Search from "./Search";
 import SearchResult from "./SearchResult";
 import { from } from "rxjs";
 import { take, map, toArray, mergeMap, flatMap } from "rxjs/operators";
+import queryString from "query-string";
 
-const MOVIE_API_URL = "https://www.omdbapi.com/?s=man&apikey=f9f0b07e"; // you should replace this with yours
-
-const SearchBox = () => {
+const SearchBox = props => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const {
+    location: { search }
+  } = props;
+  const _searchQ = queryString.parse(search);
+
+  const [initialSearchValue, setInitialSearchValue] = useState(
+    _searchQ.search && _searchQ.search.length > 0 ? _searchQ.search : ""
+  );
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    if (_searchQ.search && _searchQ.search.length > 0) {
+      setInitialSearchValue(_searchQ.search);
+      searchMethod(_searchQ.search);
+    }
 
-  const searchPromise = searchValue => {
+    setLoading(false);
+  }, [props.location.search]);
+
+  const searchMethod = searchValue => {
     setLoading(true);
     setErrorMessage(null);
     searchItemsByText(searchValue).then(jsonResponse => {
@@ -28,32 +40,6 @@ const SearchBox = () => {
       setCategories(jsonResponse.categories);
       setLoading(false);
     });
-    /* fetch(`http://localhost:3001/api/items?q==${searchValue}`)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        setItems(jsonResponse.slice(0, 4));
-        setLoading(false);
-      });*/
-  };
-
-  const search$ = searchValue => {
-    const url = `http://localhost:3001/api/items?q=${searchValue}`;
-    setLoading(true);
-    setErrorMessage(null);
-
-    //observable from promise first 4 items
-    const fetch$ = from(fetch(url)).pipe(mergeMap(response => response.json()));
-
-    fetch$.pipe(take(4)).subscribe(_items => {
-      console.log("ITEMS =", _items);
-      setItems(_items);
-      setLoading(false);
-    });
-
-    // (jsonResponse => {
-    //   setItems(jsonResponse);
-    //   setLoading(false);
-    // });
   };
 
   function debug(args) {
@@ -62,7 +48,7 @@ const SearchBox = () => {
   }
   return (
     <div className="App">
-      <Search search={searchPromise} />
+      <Search search={searchMethod} initialSearchValue={initialSearchValue} />
 
       {loading && !errorMessage ? (
         <span>loading...</span>
