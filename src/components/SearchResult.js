@@ -20,8 +20,11 @@ const SearchResult = ({ location, items, categories }) => {
             {categories &&
               categories.map((category, index) => (
                 <li
-                  className="breadcrumb-item active"
-                  aria-current="page"
+                  className={
+                    index == category.length - 1
+                      ? "breadcrumb-item active "
+                      : "breadcrumb-item"
+                  }
                   key={index}
                 >
                   {category}
@@ -33,9 +36,12 @@ const SearchResult = ({ location, items, categories }) => {
       <ol id="searchResults" className="section search-results list-view">
         {items &&
           items.map(item => (
-            <li className="results-item" key={item.id}>
-              <ItemResult item={item} key={item.id}></ItemResult>
-            </li>
+            <>
+              <li className="results-item" key={item.id}>
+                <ItemResult item={item} key={item.id}></ItemResult>
+              </li>
+              <div className="line"></div>
+            </>
           ))}
       </ol>
     </section>

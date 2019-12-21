@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../App.css";
 import Item from "./Item";
 import { getItem, searchItemsByText } from "../api/itemApi";
 import Search from "./Search";
@@ -7,6 +6,7 @@ import SearchResult from "./SearchResult";
 import { from } from "rxjs";
 import { take, map, toArray, mergeMap, flatMap } from "rxjs/operators";
 import queryString from "query-string";
+import Logo_ML from "../assets/Logo_ML.png"; // with import
 
 const SearchBox = props => {
   const [loading, setLoading] = useState(true);
@@ -48,15 +48,42 @@ const SearchBox = props => {
   }
   return (
     <div className="App">
-      <Search search={searchMethod} initialSearchValue={initialSearchValue} />
+      <div className="yellow-header">
+        <div className="container">
+          <div className="row">
+            <div className="col-1"></div>
+            <div className="col-1">
+              <img src={Logo_ML} />
+            </div>
+            <div className="col-9">
+              <Search
+                search={searchMethod}
+                initialSearchValue={initialSearchValue}
+              />
+            </div>
+            <div className="col-1"></div>
+          </div>
+        </div>
+      </div>
 
-      {loading && !errorMessage ? (
-        <span>loading...</span>
-      ) : errorMessage ? (
-        <div className="errorMessage">{errorMessage}</div>
-      ) : (
-        <SearchResult items={items} categories={categories}></SearchResult>
-      )}
+      <div className="container">
+        <div className="row">
+          <div className="col-1"></div>
+          <div className="col-10">
+            {loading && !errorMessage ? (
+              <span>loading...</span>
+            ) : errorMessage ? (
+              <div className="errorMessage">{errorMessage}</div>
+            ) : (
+              <SearchResult
+                items={items}
+                categories={categories}
+              ></SearchResult>
+            )}
+          </div>
+          <div className="col-1"></div>
+        </div>
+      </div>
     </div>
   );
 };
