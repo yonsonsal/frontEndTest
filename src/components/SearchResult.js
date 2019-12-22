@@ -1,44 +1,29 @@
 import React, { useState, useEffect } from "react";
+import { Route, Switch } from "react-router-dom";
 
 import ItemResult from "./ItemResult";
 import "bootstrap/dist/css/bootstrap.css";
 import "../App.css";
 import "../Search.css";
+import BreadCum from "./BreadCum";
 
-const SearchResult = ({ location, items, categories }) => {
+const SearchResult = props => {
+  const { location, items, categories } = props;
   useEffect(() => {
-    console.log("SearchResult location =", location);
+    console.log("SearchResult props =", props);
     if (!items && location.search.length > 0) {
     }
   }, []);
 
   return (
     <section id="results-section" className="results">
-      <div className="container breadCum category">
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            {categories &&
-              categories.map((category, index) => (
-                <li
-                  className={
-                    index == category.length - 1
-                      ? "breadcrumb-item active "
-                      : "breadcrumb-item"
-                  }
-                  key={index}
-                >
-                  {category}
-                </li>
-              ))}
-          </ol>
-        </nav>
-      </div>
+      <BreadCum categories={categories}></BreadCum>
       <ol id="searchResults" className="section search-results list-view">
         {items &&
           items.map(item => (
             <>
               <li className="results-item" key={item.id}>
-                <ItemResult item={item} key={item.id}></ItemResult>
+                <ItemResult item={item}></ItemResult>
               </li>
               <div className="line"></div>
             </>

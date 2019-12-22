@@ -1,5 +1,5 @@
 const { from, of, forkJoin } = require("rxjs");
-const { map, mergeMap, toArray } = require("rxjs/operators");
+const { map, mergeMap, toArray, concatMap } = require("rxjs/operators");
 const { mlEndpointNames, callMLAPI } = require("./proxyMLUtils");
 
 sortArraybyId = (ids, data) => {
@@ -48,10 +48,14 @@ const getObservableItemDescription = itemId => {
   return from(callMLAPI(mlEndpointNames.itemsDescriptionApi, itemId));
   //return from(fetch(`${itemURL}/${itemId}`).then(response => response.json()));
 };
+const getObservableItemCategory = categoryId => {
+  return from(callMLAPI(mlEndpointNames.itemsCategoriesApi, categoryId));
+  //return from(fetch(`${itemURL}/${itemId}`).then(response => response.json()));
+};
 
 const buildCurrencyfromPrice = price => {
   const _amount = Math.floor(price / 1000);
-  const _decimal = price % 1000;
+  const _decimal = Math.floor(price % 1000);
   const amount = _amount == 0 ? _decimal : _amount;
   const decimals = _decimal == price ? 0 : _decimal;
 
@@ -89,22 +93,28 @@ const mapItemForSeachResult = item => {
     amount: amount,
     decimals: decimals
   };
+
   return {
     id: id,
     title: title,
     price: _price,
     picture: item.pictures[0].url,
     condition: condition,
-    free_shipping: free_shipping
+    free_shipping: free_shipping,
+    state_name: item.seller_address
+      ? item.seller_address.state.name
+      : "Capital Federal"
   };
 };
 
-mapItemForResult = ({ item, itemDescription }) => {
+// eslint-disable-next-line no-undef
+mapItemForResult = ({ categories, item, itemDescription }) => {
   const _item = mapItemForSeachResult(item);
   return {
     ..._item,
     description: itemDescription.plain_text,
-    sold_quantity: item.sold_quantity
+    sold_quantity: item.sold_quantity,
+    categories: categories
   };
 };
 
@@ -142,8 +152,18 @@ const buildSearchResponse = searchResponse => {
 
 const getItemResponse = itemId => {
   const itemReq$ = getObservableItem(itemId);
+
+  const itemCategories$ = itemReq$.pipe(
+    mergeMap(item => getObservableItemCategory(item.category_id)),
+    map(_item => _item.path_from_root.map(x => x.name))
+  );
+
+  //itemCategories$.subscribe(x => console.log("Item Categories=>", x));
+  //_f$.subscribe(x => console.log("Item forkJoin Categories=>", x));
+
   const itemDescriptionReq$ = getObservableItemDescription(itemId);
   const itemResponse$ = forkJoin({
+    categories: itemCategories$,
     item: itemReq$,
     itemDescription: itemDescriptionReq$
   }).pipe(

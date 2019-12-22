@@ -21,62 +21,56 @@ const ItemDetail = props => {
     loadItem(id);
   }, [props.itemId]);
 
-  const soldQuantityText = item => {
-    const sell_str =
-      item.sold_quantity == 0
-        ? "Niguno vendido"
-        : item.sold_quantity == 1
-        ? "1 vendido"
-        : item.sold_quantity + " vendidos";
-    return sell_str;
-  };
   return (
     /**<div>ITEMDETAIL {isLoaded && item.title}</div>*/
     <>
       {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}
       {item && (
-        <div className="row-item-detail">
-          <div className="row" style={{ "padding-top": "32px" }}>
-            <div className="col-1"></div>
-            <div className="col-6">
-              <img className="img-fluid" alt={item.title} src={item.picture} />
-            </div>
-            <div className="col-5">
-              <div
-                className="d-flex flex-column"
-                style={{ "padding-right": "15px" }}
-              >
-                <div className="item-detail-sold-info">
-                  {item.condition} {" - " + soldQuantityText(item)}
+        <>
+          <div className="item-detail-background">
+            <div className="row row-item-detail" id={item.id}>
+              <div className="col-1 "></div>
+              <div className="col-7">
+                <div
+                  className="item-picture-detail"
+                  style={{ backgroundImage: "url(" + item.picture + ")" }}
+                ></div>
+              </div>
+              <div className="col-4">
+                <div className="item-detail-info">
+                  <div className="item-detail-sold-info">
+                    {item.condition} - {item.sold_quantity} vendidos
+                  </div>
+                  <div className="item-detail-title">{item.title}</div>
+                  <div className="item-price-detail">
+                    <span className="price-symbol">$</span>
+                    <span className="price-fraction">
+                      {item.price.amount}.{item.price.decimals}
+                    </span>
+                  </div>
                 </div>
-                <div className="item-detail-title">{item.title}</div>
-                <div className="item-price-detail">
-                  <span className="price-symbol">$</span>
-                  <span className="price-fraction">
-                    {item.price.amount}.{item.price.decimals}
-                  </span>
-                </div>
-                <div className="d-flex">
-                  <span className="btn btn-primary btn-buy-item">Comprar</span>
-                  <div style={{ width: "32px" }}></div>
-                </div>
+                <div className="item-detail-buy btn btn-primary">Comprar</div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-8">
-              <div className="d-flex flex-column item-detail-description-label-container">
-                <div className="item-detail-description-label">
-                  Descripción del producto
-                </div>
-                <div className="item-detail-description">
-                  {item.description}
-                </div>
+
+            <div className="row item-detail-footer-description-label">
+              <div className="col-1"></div>
+              <div className="col-4 footer-item-detail-description-label">
+                Descripción del producto
               </div>
+              <div className="col-7"></div>
+            </div>
+            <div className="row row-item-detail-footer-description">
+              <div className="col-1"></div>
+              <div className="col-7 footer-item-detail-description">
+                {item.description}
+              </div>
+              <div className="col-4"></div>
             </div>
           </div>
-        </div>
+        </>
       )}
+      <div></div>
     </>
 
     /*isLoaded && <BreadCum categories={item.categories}></BreadCum> && <></> && (

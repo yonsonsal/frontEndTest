@@ -16,7 +16,7 @@ li.breadcrumb-item.active {
 
 div.search-input {
   padding-left: -30px;
-  width: calc(100% + 30px);
+  /* width: calc(100% + 30px);*/
 }
 
 div.search-input .form-control {
@@ -43,17 +43,34 @@ div.item-picture {
   background-position: center;
 }
 
+div.item-picture-detail {
+  width: 680px;
+  height: 680px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+}
+
 .item-price {
   font-size: 24px;
   padding-top: 5px;
   padding-top: 16px;
 }
 
+.item-price-detail {
+  font-size: 46px;
+  padding-bottom: 32px;
+  /*padding: 32px 0;*/
+}
+
 .item-title {
   font-size: 18px;
   padding-top: 32px;
 }
-
+div.item-detail-title {
+  font-size: 24px;
+  padding-bottom: 32px;
+}
 .no-ppading {
   padding: 0px;
 }
@@ -74,4 +91,47 @@ div.line {
 }
 div.item-image-container {
   padding: 0 16px;
+}
+.content-result {
+}
+
+div.row-item-detail {
+  background-color: white;
+}
+div.item-detail-buy {
+  width: calc(100% - 32px);
+}
+div.item-detail-sold-info {
+  padding-top: 12px;
+  font-size: 14px;
+}
+div.row-item-detail-footer {
+  background-color: white;
+}
+div.item-detail-background {
+  background-color: white;
+}
+div.footer-item-detail-description-label {
+  font-size: 28px;
+}
+
+div.item-detail-description {
+  font-size: 16px;
+  padding-bottom: 32px;
+  text-align: justify;
+}
+div.row-item-detail {
+  color: #333333;
+}
+
+div.item-detail-description-label {
+  font-size: 28px;
+  padding-bottom: 32px;
+}
+div.item-detail-description-label-container {
+  padding: 32px;
+}
+
+span.btn-buy-item {
+  flex-grow: 1;
 }

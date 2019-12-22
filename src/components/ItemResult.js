@@ -51,7 +51,7 @@ const ItemResult = ({ item }) => {
         </div>
       </div>
       <div className="col-sm-2 col-md-3">
-        <div className="item-location">Capital Federal</div>
+        <div className="item-location">{item.state_name}</div>
       </div>
     </div>
 

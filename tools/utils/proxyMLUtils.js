@@ -13,12 +13,14 @@ const API_BASE_URL = process.env.ML_API_BASE_URL || DEFAULT_ML_API_BASE_URL;
 const ML_API_SEARCH_ITEMS_END_POINT = `${API_BASE_URL}/sites/${ML_SITE}/search?`;
 
 const ML_API_ITEMS_END_POINT = `${API_BASE_URL}/items`;
+const ML_API_CATEGORIES_END_POINT = `${API_BASE_URL}/categories`;
 
 module.exports = {
   mlEndpointNames: {
     searchItemsApi: "ML_API_SEARCH_ITEMS_END_POINT",
     itemsApi: "ML_API_ITEMS_END_POINT",
-    itemsDescriptionApi: "ML_API_ITEMS_DESCRIPTION_END_POINT"
+    itemsDescriptionApi: "ML_API_ITEMS_DESCRIPTION_END_POINT",
+    itemsCategoriesApi: "ML_API_ITEMS_CATEGORIES_END_POINT"
   },
 
   /**
@@ -32,12 +34,16 @@ module.exports = {
 
   callMLAPI(apiName, param) {
     let url = "";
+    // eslint-disable-next-line default-case
     switch (apiName) {
       case "ML_API_SEARCH_ITEMS_END_POINT":
         url = `${ML_API_SEARCH_ITEMS_END_POINT}q=${param}`;
         break;
       case "ML_API_ITEMS_END_POINT":
         url = `${ML_API_ITEMS_END_POINT}/${param}`;
+        break;
+      case "ML_API_ITEMS_CATEGORIES_END_POINT":
+        url = `${ML_API_CATEGORIES_END_POINT}/${param}`;
         break;
       case "ML_API_ITEMS_DESCRIPTION_END_POINT":
         url = `${ML_API_ITEMS_END_POINT}/${param}/description`;
