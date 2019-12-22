@@ -44,7 +44,7 @@ const ItemDetail = props => {
             <div className="col-5">
               <div
                 className="d-flex flex-column"
-                style={{ "padding-right": "15px" }}
+                style={{ paddingRight: "15px" }}
               >
                 <div className="item-detail-sold-info">
                   {item.condition} {" - " + soldQuantityText(item)}
