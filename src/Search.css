@@ -95,9 +95,6 @@ div.item-image-container {
 .content-result {
 }
 
-div.row-item-detail {
-  background-color: white;
-}
 div.item-detail-buy {
   width: calc(100% - 32px);
 }
@@ -122,6 +119,8 @@ div.item-detail-description {
 }
 div.row-item-detail {
   color: #333333;
+  background-color: white;
+  /*padding-top: 16px;*/
 }
 
 div.item-detail-description-label {

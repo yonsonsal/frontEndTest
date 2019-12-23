@@ -36,7 +36,7 @@ const ItemDetail = props => {
       {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}
       {item && (
         <div className="row-item-detail">
-          <div className="row" style={{ paddingTop: "32px" }}>
+          <div className="row" style={{ paddingTop: "16px" }}>
             <div className="col-1"></div>
             <div className="col-6">
               <img className="img-fluid" alt={item.title} src={item.picture} />

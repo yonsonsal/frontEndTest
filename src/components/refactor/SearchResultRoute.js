@@ -44,7 +44,11 @@ const SearchResultRoute = props => {
   return (
     <>
       {loading ? (
-        <span>loading...</span>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       ) : (
         <section id="results-section">
           <BreadCum categories={categories}></BreadCum>

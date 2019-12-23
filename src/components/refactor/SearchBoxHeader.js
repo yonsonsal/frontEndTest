@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
-import Item from "../Item";
-import { getItem, searchItemsByText } from "../../api/itemApi";
+import { Link } from "react-router-dom";
+
 import Search from "./Search";
 import BreadCum from "./BreadCum";
 import SearchResultRoute from "./SearchResultRoute";
@@ -11,47 +11,30 @@ import queryString from "query-string";
 import Logo_ML from "../../assets/Logo_ML.png"; // with import
 
 const SearchBoxHeader = props => {
-  const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
-
-  const [errorMessage, setErrorMessage] = useState(null);
-
-  /* const {
-    location: { search }
-  } = props;
-  const _searchQ = queryString.parse(search);*/
-
-  const [initialSearchValue, setInitialSearchValue] = useState();
   // _searchQ.search && _searchQ.search.length > 0 ? _searchQ.search : ""
 
-  useEffect(() => {
-    /*  if (_searchQ.search && _searchQ.search.length > 0) {
-      setInitialSearchValue(_searchQ.search);
-      searchMethod(_searchQ.search);
-    }
-*/
-    setLoading(false);
-  }, [props.location]);
-
   const searchMethod = searchValue => {
+    /*
     setLoading(true);
     setErrorMessage(null);
     searchItemsByText(searchValue).then(jsonResponse => {
       setItems(jsonResponse.items.slice(0, 4));
       setCategories(jsonResponse.categories);
-      setLoading(false);
-    });
+      setLoading(false); 
+    });*/
+    props.history.push("/items?search=" + searchValue);
   };
 
   return (
     <div className="App">
       <div className="yellow-header">
-        <div className="main">
+        <div className="container">
           <div className="row">
             <div className="col-1"></div>
             <div className="col-1">
-              <img src={Logo_ML} />
+              <Link to="/">
+                <img src={Logo_ML} />
+              </Link>
             </div>
             <div className="col-9">
               <Search search={searchMethod} />
