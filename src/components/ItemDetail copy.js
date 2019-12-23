@@ -62,7 +62,7 @@ const ItemDetail = props => {
             </div>
             <div className="row row-item-detail-footer-description">
               <div className="col-1"></div>
-              <div className="col-7 footer-item-detail-description">
+              <div className="col-7 item-detail-description">
                 {item.description}
               </div>
               <div className="col-4"></div>

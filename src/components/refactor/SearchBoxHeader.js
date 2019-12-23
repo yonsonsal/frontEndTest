@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Item from "./Item";
-import { getItem, searchItemsByText } from "../api/itemApi";
+import { withRouter } from "react-router";
+import Item from "../Item";
+import { getItem, searchItemsByText } from "../../api/itemApi";
 import Search from "./Search";
 import BreadCum from "./BreadCum";
-import SearchResult from "./SearchResult";
+import SearchResultRoute from "./SearchResultRoute";
 import { from } from "rxjs";
 import { take, map, toArray, mergeMap, flatMap } from "rxjs/operators";
 import queryString from "query-string";
-import Logo_ML from "../assets/Logo_ML.png"; // with import
+import Logo_ML from "../../assets/Logo_ML.png"; // with import
 
 const SearchBoxHeader = props => {
   const [loading, setLoading] = useState(true);
@@ -46,7 +47,7 @@ const SearchBoxHeader = props => {
   return (
     <div className="App">
       <div className="yellow-header">
-        <div className="container">
+        <div className="main">
           <div className="row">
             <div className="col-1"></div>
             <div className="col-1">
@@ -59,10 +60,8 @@ const SearchBoxHeader = props => {
           </div>
         </div>
       </div>
-      <BreadCum categories={categories} />
-      <div className="content-result">{props.children}</div>
     </div>
   );
 };
 
-export default SearchBoxHeader;
+export default withRouter(SearchBoxHeader);
