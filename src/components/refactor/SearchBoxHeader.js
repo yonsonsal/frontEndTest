@@ -11,7 +11,24 @@ import queryString from "query-string";
 import Logo_ML from "../../assets/Logo_ML.png"; // with import
 
 const SearchBoxHeader = props => {
+  const [initialValue, setInitialValue] = useState("");
   // _searchQ.search && _searchQ.search.length > 0 ? _searchQ.search : ""
+
+  const getInitialSearchValue = () => {
+    const _searchQ =
+      props.location && props.location.search
+        ? queryString.parse(props.location.search)
+        : { search: "" };
+    return _searchQ.search;
+  };
+  useEffect(() => {
+    const _searchQ =
+      props.location && props.location.search
+        ? queryString.parse(props.location.search)
+        : { search: "" };
+    setInitialValue(_searchQ.search);
+    console.log("initialSearchValue =>", _searchQ.search);
+  }, [props.location]);
 
   const searchMethod = searchValue => {
     /*
@@ -28,7 +45,7 @@ const SearchBoxHeader = props => {
   return (
     <div className="App">
       <div className="yellow-header">
-        <div className="container">
+        <div className="main container">
           <div className="row">
             <div className="col-1"></div>
             <div className="col-1">
@@ -37,7 +54,10 @@ const SearchBoxHeader = props => {
               </Link>
             </div>
             <div className="col-9">
-              <Search search={searchMethod} />
+              <Search
+                initialSearchValue={getInitialSearchValue()}
+                search={searchMethod}
+              />
             </div>
             <div className="col-1"></div>
           </div>

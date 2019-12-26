@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
 import { searchItemsByText } from "../../api/itemApi";
+import { withRouter } from "react-router";
 
 import queryString from "query-string";
 import ItemResult from "./ItemResult";
@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../../App.css";
 import "../../Search.css";
 import BreadCum from "./BreadCum";
+import Loading from "./Loading";
 
 const SearchResultRoute = props => {
   const [loading, setLoading] = useState(true);
@@ -44,20 +45,16 @@ const SearchResultRoute = props => {
   return (
     <>
       {loading ? (
-        <div class="d-flex justify-content-center">
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
+        <Loading></Loading>
       ) : (
-        <section id="results-section">
+        <section id="results-section" className="content-result">
           <BreadCum categories={categories}></BreadCum>
           <ol id="searchResults" className="section search-results list-view">
             {items &&
-              items.map(item => (
+              items.map((item, index) => (
                 <>
-                  <li className="results-item" key={item.id}>
-                    <ItemResult item={item}></ItemResult>
+                  <li className="results-item" key={index}>
+                    <ItemResult item={item} key={`item-${index}`}></ItemResult>
                   </li>
                   <div className="line"></div>
                 </>
@@ -69,4 +66,4 @@ const SearchResultRoute = props => {
   );
 };
 
-export default SearchResultRoute;
+export default withRouter(SearchResultRoute);

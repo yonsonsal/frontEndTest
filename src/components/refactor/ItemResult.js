@@ -4,7 +4,7 @@ import ShippingImg from "../../assets/ic_shipping.png";
 
 const ItemResult = ({ item }) => {
   return (
-    <div className="row" id={item.id}>
+    <div className="row" id={`row-${item.id}`}>
       <div className="col-sm-10 col-md-9">
         <div className="row">
           <div className="col-auto item-image-container">
@@ -19,7 +19,7 @@ const ItemResult = ({ item }) => {
               </div>
             </div>
           </div>
-          <div className="col-8 no-ppading">
+          <div className="col-4 no-ppading">
             <div className="price-container">
               <div className="item-price">
                 <span className="price-symbol">$</span>

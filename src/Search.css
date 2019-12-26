@@ -12,6 +12,7 @@ li.breadcrumb-item.active {
 
 .category {
   font-size: 14px;
+  margin-left: -15px;
 }
 
 div.search-input {
@@ -92,7 +93,8 @@ div.line {
 div.item-image-container {
   padding: 0 16px;
 }
-.content-result {
+section.content-result {
+  margin: 0 96px;
 }
 
 div.item-detail-buy {

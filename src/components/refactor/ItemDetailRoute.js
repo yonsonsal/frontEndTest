@@ -33,50 +33,58 @@ const ItemDetail = props => {
   return (
     /**<div>ITEMDETAIL {isLoaded && item.title}</div>*/
     <>
-      {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}
-      {item && (
-        <div className="row-item-detail">
-          <div className="row" style={{ paddingTop: "16px" }}>
-            <div className="col-1"></div>
-            <div className="col-6">
-              <img className="img-fluid" alt={item.title} src={item.picture} />
+      <section id="item-detail-section" className="content-result">
+        {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}
+        {item && (
+          <div className="row-item-detail">
+            <div className="row" style={{ paddingTop: "16px" }}>
+              <div className="col-1"></div>
+              <div className="col-6">
+                <img
+                  className="img-fluid"
+                  alt={item.title}
+                  src={item.picture}
+                />
+              </div>
+              <div className="col-5">
+                <div
+                  className="d-flex flex-column"
+                  style={{ paddingRight: "15px" }}
+                >
+                  <div className="item-detail-sold-info">
+                    {item.condition} {" - " + soldQuantityText(item)}
+                  </div>
+                  <div className="item-detail-title">{item.title}</div>
+                  <div className="item-price-detail">
+                    <span className="price-symbol">$</span>
+                    <span className="price-fraction">
+                      {item.price.amount}.{item.price.decimals}
+                    </span>
+                  </div>
+                  <div className="d-flex">
+                    <span className="btn btn-primary btn-buy-item">
+                      Comprar
+                    </span>
+                    <div style={{ width: "32px" }}></div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="col-5">
-              <div
-                className="d-flex flex-column"
-                style={{ paddingRight: "15px" }}
-              >
-                <div className="item-detail-sold-info">
-                  {item.condition} {" - " + soldQuantityText(item)}
-                </div>
-                <div className="item-detail-title">{item.title}</div>
-                <div className="item-price-detail">
-                  <span className="price-symbol">$</span>
-                  <span className="price-fraction">
-                    {item.price.amount}.{item.price.decimals}
-                  </span>
-                </div>
-                <div className="d-flex">
-                  <span className="btn btn-primary btn-buy-item">Comprar</span>
-                  <div style={{ width: "32px" }}></div>
+            <div className="row">
+              <div className="col-8">
+                <div className="d-flex flex-column item-detail-description-label-container">
+                  <div className="item-detail-description-label">
+                    Descripción del producto
+                  </div>
+                  <div className="item-detail-description">
+                    {item.description}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-8">
-              <div className="d-flex flex-column item-detail-description-label-container">
-                <div className="item-detail-description-label">
-                  Descripción del producto
-                </div>
-                <div className="item-detail-description">
-                  {item.description}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        )}
+      </section>
     </>
 
     /*isLoaded && <BreadCum categories={item.categories}></BreadCum> && <></> && (

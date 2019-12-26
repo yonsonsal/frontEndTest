@@ -17,12 +17,24 @@ sortArraybyId = (ids, data) => {
 
 const flatCategories = searchResponse => {
   let pluckedCategoryArray = [];
+  let itemCategories$, firstItem, categoriesResult$;
 
   if (searchResponse.filters.length > 0) {
     pluckedCategoryArray = searchResponse.filters
       .filter(_filter => _filter.id == "category")[0]
       .values[0].path_from_root.map(path => path.name);
+    categoriesResult$ = of(pluckedCategoryArray);
+  } else {
+    //The search result doesn't contain filters array
+    //obtain the array categories from api categories of first item
+    if (searchResponse.available_filters.length > 0) {
+      firstItem = searchResponse.results[0];
+      categoriesResult$ = getObservableItemCategory(firstItem.category_id).pipe(
+        map(_item => _item.path_from_root.map(x => x.name))
+      );
+    }
   }
+
   /*
   else {
     if (searchResponse.available_filters.length > 0) {
@@ -32,7 +44,7 @@ const flatCategories = searchResponse => {
     }
   }*/
 
-  return pluckedCategoryArray;
+  return categoriesResult$;
 };
 
 /**
@@ -142,7 +154,7 @@ const transformItemIdArray = itemsIdArray => {
 const buildSearchResponse = searchResponse => {
   const itemIdArray = searchResponse.results.map(x => x.id);
   const itemArray$ = transformItemIdArray(itemIdArray);
-  const categories$ = of(flatCategories(searchResponse));
+  const categories$ = flatCategories(searchResponse); //of(flatCategories(searchResponse));
 
   return forkJoin({
     categories: categories$,
@@ -150,9 +162,11 @@ const buildSearchResponse = searchResponse => {
   });
 };
 
+//TODO usar tap para tirar exception
 const getItemResponse = itemId => {
   const itemReq$ = getObservableItem(itemId);
 
+  //TODO inner forkjoin to avoid itemReq
   const itemCategories$ = itemReq$.pipe(
     mergeMap(item => getObservableItemCategory(item.category_id)),
     map(_item => _item.path_from_root.map(x => x.name))

@@ -3,6 +3,7 @@ const cors = require("cors");
 const fetch = require("node-fetch");
 const { from, of, forkJoin } = require("rxjs");
 const { map, flatMap, mergeMap, toArray } = require("rxjs/operators");
+const { handleError, ErrorHandler } = require("./utils/error-handler");
 
 const {
   buildSearchResponse,
@@ -15,8 +16,13 @@ const { mlEndpointNames, callMLAPI } = require("./utils/proxyMLUtils");
 
 const app = express();
 app.use(cors());
-app.use(logErrors);
-app.use(errorHandler);
+//app.use(logErrors);
+//app.use(errorHandler);
+
+//Error managment
+app.use((err, req, res, next) => {
+  handleError(err, res);
+});
 
 var port = process.env.PORT || 3001;
 
@@ -45,7 +51,13 @@ itemsRouter.get("/items/:id", (req, res) => {
   const id = req.params.id;
   getItemResponse(id)
     .pipe(map(res => tagAuthor(res)))
-    .subscribe(x => res.json(x));
+    .subscribe(
+      x => res.json(x),
+      err => {
+        console.err("Internal server error ", err);
+        throw new ErrorHandler(500, "HTTP Error " + err);
+      } // throwconsole.log("HTTP Error", err)
+    );
 });
 app.use("/api", itemsRouter);
 //TODO Welcome api page
