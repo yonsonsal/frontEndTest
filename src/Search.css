@@ -24,6 +24,32 @@ div.search-input .form-control {
   font-size: 18px;
 }
 
+.vip-error-screen .ch-btn-action {
+  padding: 9px 17px;
+  color: #666;
+  font-size: 15px;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.vip-error-screen {
+  padding: 70px 0;
+  text-align: center;
+}
+.vip-error-screen .ch-icon-attention {
+  display: block;
+  font-size: 50px;
+  color: #ccc;
+  width: 50px;
+  height: 45px;
+  margin: auto;
+}
+
+.vip-error-screen .error-title {
+  font-size: 17px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
 ol.section.search-results.list-view {
   background-color: white;
   padding: 0px;

@@ -3,19 +3,35 @@ import "../../App.css";
 import "../../Search.css";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import BreadCum from "./BreadCum";
+import ErrorMessageDiv from "./ErrorMessage";
 import { getItem } from "../../api/itemApi";
 import "bootstrap/dist/css/bootstrap.css";
+import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
+
+import Loading from "./Loading";
 
 const ItemDetail = props => {
   const [item, setItem] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useLayoutEffect(() => {
     const id = props.match && props.match.params.id ? props.match.params.id : 0; // from the path `/items/:id`
     async function loadItem(_id) {
       if (_id) {
-        await getItem(_id).then(_item => setItem(_item));
-        setIsLoaded(true);
+        try {
+          setLoading(true);
+          await getItem(_id).then(_item => setItem(_item));
+          setLoading(false);
+          setErrorMessage(null);
+        } catch (e) {
+          setLoading(false);
+          console.error("typeof e=>", typeof e);
+          console.error("useLayoutEffect Error  e=>", e);
+          console.error("useLayoutEffect Error  e.message=>", e.message);
+
+          setErrorMessage(JSON.parse(e.message));
+        }
       }
     }
     loadItem(id);
@@ -33,58 +49,64 @@ const ItemDetail = props => {
   return (
     /**<div>ITEMDETAIL {isLoaded && item.title}</div>*/
     <>
-      <section id="item-detail-section" className="content-result">
-        {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}
-        {item && (
-          <div className="row-item-detail">
-            <div className="row" style={{ paddingTop: "16px" }}>
-              <div className="col-1"></div>
-              <div className="col-6">
-                <img
-                  className="img-fluid"
-                  alt={item.title}
-                  src={item.picture}
-                />
+      {loading && !errorMessage ? (
+        <Loading></Loading>
+      ) : errorMessage ? (
+        <ErrorMessageDiv>{errorMessage.message}</ErrorMessageDiv>
+      ) : (
+        <section id="item-detail-section" className="content-result">
+          {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}
+          {item && (
+            <div className="row-item-detail">
+              <div className="row" style={{ paddingTop: "16px" }}>
+                <div className="col-1"></div>
+                <div className="col-6">
+                  <img
+                    className="img-fluid"
+                    alt={item.title}
+                    src={item.picture}
+                  />
+                </div>
+                <div className="col-5">
+                  <div
+                    className="d-flex flex-column"
+                    style={{ paddingRight: "15px" }}
+                  >
+                    <div className="item-detail-sold-info">
+                      {item.condition} {" - " + soldQuantityText(item)}
+                    </div>
+                    <div className="item-detail-title">{item.title}</div>
+                    <div className="item-price-detail">
+                      <span className="price-symbol">$</span>
+                      <span className="price-fraction">
+                        {item.price.amount}.{item.price.decimals}
+                      </span>
+                    </div>
+                    <div className="d-flex">
+                      <span className="btn btn-primary btn-buy-item">
+                        Comprar
+                      </span>
+                      <div style={{ width: "32px" }}></div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="col-5">
-                <div
-                  className="d-flex flex-column"
-                  style={{ paddingRight: "15px" }}
-                >
-                  <div className="item-detail-sold-info">
-                    {item.condition} {" - " + soldQuantityText(item)}
-                  </div>
-                  <div className="item-detail-title">{item.title}</div>
-                  <div className="item-price-detail">
-                    <span className="price-symbol">$</span>
-                    <span className="price-fraction">
-                      {item.price.amount}.{item.price.decimals}
-                    </span>
-                  </div>
-                  <div className="d-flex">
-                    <span className="btn btn-primary btn-buy-item">
-                      Comprar
-                    </span>
-                    <div style={{ width: "32px" }}></div>
+              <div className="row">
+                <div className="col-8">
+                  <div className="d-flex flex-column item-detail-description-label-container">
+                    <div className="item-detail-description-label">
+                      Descripción del producto
+                    </div>
+                    <div className="item-detail-description">
+                      {item.description}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-8">
-                <div className="d-flex flex-column item-detail-description-label-container">
-                  <div className="item-detail-description-label">
-                    Descripción del producto
-                  </div>
-                  <div className="item-detail-description">
-                    {item.description}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </section>
+          )}
+        </section>
+      )}
     </>
 
     /*isLoaded && <BreadCum categories={item.categories}></BreadCum> && <></> && (
