@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { searchItemsByText } from "../../api/itemApi";
+import { searchItemsByText } from "../api/itemApi";
 import { withRouter } from "react-router";
-
 import queryString from "query-string";
 import ItemResult from "./ItemResult";
-import "bootstrap/dist/css/bootstrap.css";
-import "../../App.css";
-import "../../Search.css";
 import BreadCum from "./BreadCum";
 import Loading from "./Loading";
 

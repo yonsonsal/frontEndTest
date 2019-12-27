@@ -1,12 +1,34 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
+import React, { useState, useEffect } from "react";
+
 import Search_icon from "../assets/ic_Search.png";
 
 const Search = props => {
   const [searchValue, setSearchValue] = useState(
     props.initialSearchValue ? props.initialSearchValue : ""
   );
+  console.log(
+    " Before useEffect initialSearchValue =",
+    props.initialSearchValue
+  );
+
+  useEffect(() => {
+    console.log(
+      " Inside useEffect initialSearchValue =",
+      props.initialSearchValue
+    );
+
+    if (!props.initialSearchValue || props.initialSearchValue.length === 0) {
+      resetInputField();
+    }
+    /*  if (_searchQ.search && _searchQ.search.length > 0) {
+      setInitialSearchValue(_searchQ.search);
+      searchMethod(_searchQ.search);
+    }
+    
+    
+*/
+    //resetInputField();
+  }, [props]);
 
   const handleSearchInputChanges = e => {
     setSearchValue(e.target.value);
@@ -15,6 +37,10 @@ const Search = props => {
   const callSearchFunction = e => {
     e.preventDefault();
     props.search(searchValue);
+  };
+
+  const resetInputField = () => {
+    setSearchValue("");
   };
 
   return (
@@ -33,7 +59,7 @@ const Search = props => {
             type="submit"
             onClick={callSearchFunction}
           >
-            <img src={Search_icon} />
+            <img src={Search_icon} alt="buscar" />
           </button>
         </div>
       </div>

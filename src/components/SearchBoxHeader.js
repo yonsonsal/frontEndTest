@@ -3,12 +3,8 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 
 import Search from "./Search";
-import BreadCum from "./BreadCum";
-import SearchResultRoute from "./SearchResultRoute";
-import { from } from "rxjs";
-import { take, map, toArray, mergeMap, flatMap } from "rxjs/operators";
 import queryString from "query-string";
-import Logo_ML from "../../assets/Logo_ML.png"; // with import
+import Logo_ML from "../assets/Logo_ML.png"; // with import
 
 const SearchBoxHeader = props => {
   const [initialValue, setInitialValue] = useState("");

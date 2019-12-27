@@ -1,12 +1,7 @@
-import "bootstrap/dist/css/bootstrap.css";
-import "../../App.css";
-import "../../Search.css";
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import BreadCum from "./BreadCum";
 import ErrorMessageDiv from "./ErrorMessage";
-import { getItem } from "../../api/itemApi";
-import "bootstrap/dist/css/bootstrap.css";
-import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
+import { getItem } from "../api/itemApi";
 
 import Loading from "./Loading";
 
@@ -52,7 +47,7 @@ const ItemDetail = props => {
       {loading && !errorMessage ? (
         <Loading></Loading>
       ) : errorMessage ? (
-        <ErrorMessageDiv>{errorMessage.message}</ErrorMessageDiv>
+        <ErrorMessageDiv></ErrorMessageDiv>
       ) : (
         <section id="item-detail-section" className="content-result">
           {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}

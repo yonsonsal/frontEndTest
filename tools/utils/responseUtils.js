@@ -1,6 +1,7 @@
 const { from, of, forkJoin } = require("rxjs");
-const { map, mergeMap, toArray, concatMap } = require("rxjs/operators");
+const { map, mergeMap, toArray, tap } = require("rxjs/operators");
 const { mlEndpointNames, callMLAPI } = require("./proxyMLUtils");
+const { ErrorHandler } = require("./error-handler");
 
 sortArraybyId = (ids, data) => {
   let result = [];
@@ -168,6 +169,10 @@ const getItemResponse = itemId => {
 
   //TODO inner forkjoin to avoid itemReq
   const itemCategories$ = itemReq$.pipe(
+    tap(x => {
+      console.log("fromTap status =", x.status);
+      handleObservableResponse(x);
+    }),
     mergeMap(item => getObservableItemCategory(item.category_id)),
     map(_item => _item.path_from_root.map(x => x.name))
   );
@@ -201,6 +206,13 @@ const tagAuthor = json => {
   return { ..._author, ...json };
 };
 
+const handleObservableResponse = response => {
+  console.log("response.status in error", response.status);
+  if (response.status !== "active") {
+    throw new ErrorHandler(response.status, response.message);
+  }
+};
+
 const logErrors = (err, req, res, next) => {
   console.error(err.stack);
   next(err);
@@ -209,6 +221,19 @@ const errorHandler = (err, req, res, next) => {
   res.status(500);
   res.render("error", { error: err });
 };
+function handleResponse(response) {
+  console.log(" handleResponse response =", response);
+  if (response.ok) return response.json();
+  else {
+    // So, a server-side validation error occurred.
+    // Server side validation returns a string error message, so parse as text instead of json.
+
+    const error = response.json();
+    throw ErrorHandler(error.status, error.message);
+
+    // throw new Error(error);
+  }
+}
 
 module.exports = {
   buildSearchResponse: buildSearchResponse,
@@ -216,5 +241,6 @@ module.exports = {
   logErrors: logErrors,
   errorHandler: errorHandler,
   getObservableItem: getObservableItem,
-  getItemResponse: getItemResponse
+  getItemResponse: getItemResponse,
+  handleResponse: handleResponse
 };
