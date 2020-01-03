@@ -23,6 +23,7 @@
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
+    "env-cmd": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-config-react-app": "^4.0.1",
     "eslint-loader": "2.1.2",
@@ -78,6 +79,7 @@
     "start:api": "node tools/apiServer.js",
     "start:proxy": "node tools/express/proxyMLA.js",
     "build": "node scripts/build.js",
+    "build:staging": "env-cmd -f .env.staging npm run build",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
