@@ -1,5 +1,5 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.css";
+/*import "bootstrap/dist/css/bootstrap.css";*/
 
 const BreadCum = props => {
   return (
@@ -7,7 +7,7 @@ const BreadCum = props => {
       <div className="col-auto">
         <div className="breadCum category">
           <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
+            <ol className="breadcrumb mb-0 py-2">
               {props.categories &&
                 props.categories.map((category, index) => (
                   <li

@@ -19,12 +19,14 @@ const ItemResult = ({ item }) => {
               </div>
             </div>
           </div>
-          <div className="col-4 no-ppading">
+          <div className="col-4 no-ppading item-result-info">
             <div className="price-container">
               <div className="item-price">
                 <span className="price-symbol">$</span>
                 <span className="price-fraction">
-                  {item.price.amount}.{item.price.decimals}
+                  {item.price.amount}
+                  {""}
+                  {item.price.decimals > 0 ? "." + item.price.decimals : ""}
                 </span>
 
                 {item.free_shipping ? (
@@ -50,7 +52,7 @@ const ItemResult = ({ item }) => {
           </div>
         </div>
       </div>
-      <div className="col-sm-2 col-md-3">
+      <div className="col-sm-2 col-md-3 item-location-wrapper">
         <div className="item-location">{item.state_name}</div>
       </div>
     </div>

@@ -43,7 +43,7 @@ const SearchResultRoute = props => {
       {loading ? (
         <Loading></Loading>
       ) : (
-        <section id="results-section" className="content-result">
+        <section id="results-section" className="content-result mx-md-5">
           <BreadCum categories={categories}></BreadCum>
           <ol id="searchResults" className="section search-results list-view">
             {items &&

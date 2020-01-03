@@ -49,25 +49,25 @@ const ItemDetail = props => {
       ) : errorMessage ? (
         <ErrorMessageDiv></ErrorMessageDiv>
       ) : (
-        <section id="item-detail-section" className="content-result">
+        <section id="item-detail-section" className="content-result mx-md-5">
           {item ? <BreadCum categories={item.categories}></BreadCum> : <></>}
           {item && (
             <div className="row-item-detail">
               <div className="row" style={{ paddingTop: "16px" }}>
-                <div className="col-1"></div>
-                <div className="col-6">
+                <div className="col-md-1"></div>
+                <div className="col-md-6 col-10 mx-auto">
                   <img
                     className="img-fluid"
                     alt={item.title}
                     src={item.picture}
                   />
                 </div>
-                <div className="col-5">
+                <div className="col-md-5 col-10 mx-auto">
                   <div
                     className="d-flex flex-column"
                     style={{ paddingRight: "15px" }}
                   >
-                    <div className="item-detail-sold-info">
+                    <div className="item-detail-sold-info pt-3 mb-2">
                       {item.condition} {" - " + soldQuantityText(item)}
                     </div>
                     <div className="item-detail-title">{item.title}</div>

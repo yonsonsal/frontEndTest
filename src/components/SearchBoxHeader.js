@@ -43,8 +43,8 @@ const SearchBoxHeader = props => {
       <div className="yellow-header">
         <div className="main container">
           <div className="row">
-            <div className="col-1"></div>
-            <div className="col-1">
+            <div className="col-md-1"></div>
+            <div className="col-2 col-md-1">
               <Link to="/">
                 <img src={Logo_ML} />
               </Link>
