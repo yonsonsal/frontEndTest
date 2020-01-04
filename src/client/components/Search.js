@@ -7,18 +7,20 @@ const Search = props => {
     props.initialSearchValue ? props.initialSearchValue : ""
   );
   console.log(
-    " Before useEffect initialSearchValue =",
+    " SearchComp Before useEffect initialSearchValue =",
     props.initialSearchValue
   );
 
   useEffect(() => {
     console.log(
-      " Inside useEffect initialSearchValue =",
+      " SearchComp Inside useEffect initialSearchValue =",
       props.initialSearchValue
     );
 
     if (!props.initialSearchValue || props.initialSearchValue.length === 0) {
       resetInputField();
+    } else {
+      setSearchValue(props.initialSearchValue);
     }
     /*  if (_searchQ.search && _searchQ.search.length > 0) {
       setInitialSearchValue(_searchQ.search);

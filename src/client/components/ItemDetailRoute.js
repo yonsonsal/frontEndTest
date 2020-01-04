@@ -34,9 +34,9 @@ const ItemDetail = props => {
 
   const soldQuantityText = item => {
     const sell_str =
-      item.sold_quantity == 0
+      item.sold_quantity === 0
         ? "Niguno vendido"
-        : item.sold_quantity == 1
+        : item.sold_quantity === 1
         ? "1 vendido"
         : item.sold_quantity + " vendidos";
     return sell_str;

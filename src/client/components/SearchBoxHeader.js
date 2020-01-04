@@ -15,6 +15,9 @@ const SearchBoxHeader = props => {
       props.location && props.location.search
         ? queryString.parse(props.location.search)
         : { search: "" };
+
+    console.log("getInitialSearchValue =>", _searchQ.search);
+
     return _searchQ.search;
   };
   useEffect(() => {
@@ -22,9 +25,12 @@ const SearchBoxHeader = props => {
       props.location && props.location.search
         ? queryString.parse(props.location.search)
         : { search: "" };
+    console.log("_searchQ.search =>", _searchQ.search);
+
     setInitialValue(_searchQ.search);
-    console.log("initialSearchValue =>", _searchQ.search);
-  }, [props.location]);
+
+    console.log("initialSearchValue =>", initialValue);
+  }, []);
 
   const searchMethod = searchValue => {
     /*
@@ -46,7 +52,7 @@ const SearchBoxHeader = props => {
             <div className="col-md-1"></div>
             <div className="col-2 col-md-1">
               <Link to="/">
-                <img src={Logo_ML} />
+                <img src={Logo_ML} alt="Logo de Mercado libre" />
               </Link>
             </div>
             <div className="col-9">

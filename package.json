@@ -76,8 +76,7 @@
   "scripts": {
     "start": "run-p start:dev start:api",
     "start:dev": "cross-env REACT_APP_API_URL=http://localhost:3001 node scripts/start.js",
-    "start:api": "node server/apiServer.js",
-    "start:proxy": "node server/express/proxyMLA.js",
+    "start:api": "node src/server/apiServer.js",
     "build": "node scripts/build.js",
     "build:staging": "env-cmd -f .env.staging npm run build",
     "test": "node scripts/test.js"

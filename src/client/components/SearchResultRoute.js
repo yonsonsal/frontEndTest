@@ -10,7 +10,6 @@ const SearchResultRoute = props => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
-  const { location, _items, _categories } = props;
   const {
     location: { search }
   } = props;
@@ -22,7 +21,7 @@ const SearchResultRoute = props => {
       //setInitialSearchValue(_searchQ.search);
       searchMethod(_searchQ.search);
     }
-  }, [props]);
+  }, [props, _searchQ.search]);
 
   /**
    * Search Method
@@ -48,12 +47,12 @@ const SearchResultRoute = props => {
           <ol id="searchResults" className="section search-results list-view">
             {items &&
               items.map((item, index) => (
-                <>
-                  <li className="results-item" key={index}>
+                <React.Fragment key={index}>
+                  <li className="results-item">
                     <ItemResult item={item} key={`item-${index}`}></ItemResult>
                   </li>
                   <div className="line"></div>
-                </>
+                </React.Fragment>
               ))}
           </ol>
         </section>
