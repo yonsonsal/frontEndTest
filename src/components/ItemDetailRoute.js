@@ -74,7 +74,10 @@ const ItemDetail = props => {
                     <div className="item-price-detail">
                       <span className="price-symbol">$</span>
                       <span className="price-fraction">
-                        {item.price.amount}.{item.price.decimals}
+                        {item.price.amount}
+                        {item.price.decimals > 0
+                          ? "." + item.price.decimals
+                          : ""}
                       </span>
                     </div>
                     <div className="d-flex">

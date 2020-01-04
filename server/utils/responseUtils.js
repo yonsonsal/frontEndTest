@@ -170,7 +170,6 @@ const getItemResponse = itemId => {
   //TODO inner forkjoin to avoid itemReq
   const itemCategories$ = itemReq$.pipe(
     tap(x => {
-      console.log("fromTap status =", x.status);
       handleObservableResponse(x);
     }),
     mergeMap(item => getObservableItemCategory(item.category_id)),
@@ -207,7 +206,6 @@ const tagAuthor = json => {
 };
 
 const handleObservableResponse = response => {
-  console.log("response.status in error", response.status);
   if (response.status !== "active") {
     throw new ErrorHandler(response.status, response.message);
   }

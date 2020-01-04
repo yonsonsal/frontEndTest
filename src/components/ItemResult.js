@@ -25,7 +25,6 @@ const ItemResult = ({ item }) => {
                 <span className="price-symbol">$</span>
                 <span className="price-fraction">
                   {item.price.amount}
-                  {""}
                   {item.price.decimals > 0 ? "." + item.price.decimals : ""}
                 </span>
 
