@@ -1,0 +1,11 @@
+@import "_vars";
+@import "~bootstrap/scss/bootstrap";
+
+div.yellow-header {
+  background-color: $yellowBrandColor;
+  padding: 5px 0px;
+}
+
+body {
+  background-color: $grayLightColor;
+}
