@@ -49,4 +49,4 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ### `npm run build:staging`
 
 Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance. You must edit the file .env.staging to set the REACT_APP_API_URL env variable properly.
+It correctly bundles React in production mode and optimizes the build for the best performance. You must edit the file .env.staging to set the `REACT_APP_API_URL` env variable properly.
